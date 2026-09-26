@@ -1,0 +1,12 @@
+{
+  "name": "Dalvin",
+  "now_playing": {
+    "title": "Marvel's Wolverine",
+    "platform": "PS5",
+    "started": "2026-09-26"
+  },
+  "recently_played": [
+    { "title": "Astro Bot", "platform": "PS5", "status": "Finished", "ended": "2026-09-20" },
+    { "title": "Hades II", "platform": "PC", "status": "Dropped", "wiki": "Hades II" }
+  ]
+}

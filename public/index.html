@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gamer Card</title>
+<meta name="description" content="Show what you're playing on your GitHub profile, blog or website. Game info and cover art from Wikipedia.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">PLAYER 1 · READY</p>
+    <h1>Gamer Card</h1>
+    <p class="lede">Put what you're playing on your GitHub profile, blog or site, and let visitors vote on what you play next. Game info and cover art come from Wikipedia.</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel" aria-labelledby="build-h">
+    <h2 id="build-h"><span class="step">1</span> Build your list</h2>
+
+    <div class="row">
+      <label class="field">Your name (optional)
+        <input id="name" maxlength="40" placeholder="e.g. Dalvin">
+      </label>
+      <label class="field">Load an existing games.json from GitHub
+        <span class="inline">
+          <input id="importUser" placeholder="GitHub username">
+          <button id="importBtn" type="button" class="ghost">Load</button>
+        </span>
+      </label>
+    </div>
+
+    <label class="field">Search for a game
+      <input id="search" type="search" placeholder="Hades II, Elden Ring, Astro Bot…" autocomplete="off">
+    </label>
+    <p id="searchStatus" class="hint" aria-live="polite"></p>
+    <ul id="results" class="results"></ul>
+
+    <h3>Now playing</h3>
+    <div id="nowSlot" class="slot"></div>
+
+    <h3>Recently played <span class="hint">(up to 12, top 5 show on the card)</span></h3>
+    <ol id="recentList" class="slot list"></ol>
+  </section>
+
+  <section class="panel" aria-labelledby="style-h">
+    <h2 id="style-h"><span class="step">2</span> Style it</h2>
+    <div class="row">
+      <label class="field">Theme
+        <select id="theme"><option value="dark">Dark</option><option value="light">Light</option><option value="neon">Neon</option><option value="retro">Retro</option></select>
+      </label>
+      <label class="field">Layout
+        <select id="layout"><option value="full">Full (with history)</option><option value="compact">Compact (now playing)</option></select>
+      </label>
+      <label class="field">Accent
+        <input id="accent" type="color" value="#f472b6">
+      </label>
+    </div>
+    <div class="preview"><img id="preview" alt="Your gamer card preview"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="export-h">
+    <h2 id="export-h"><span class="step">3</span> Export &amp; embed</h2>
+    <div class="tabs" role="tablist">
+      <button role="tab" class="tab active" data-tab="quick" aria-selected="true">Quick embed</button>
+      <button role="tab" class="tab" data-tab="github" aria-selected="false">Auto-updating (GitHub)</button>
+      <button role="tab" class="tab" data-tab="files" aria-selected="false">Download</button>
+    </div>
+
+    <div class="tabpanel" data-panel="quick">
+      <p>Everything lives in the link. Come back here and re-copy it when you switch games.</p>
+      <label class="field">Markdown (GitHub README)<textarea id="mdQuick" readonly rows="3"></textarea></label>
+      <label class="field">HTML (any website)<textarea id="htmlQuick" readonly rows="3"></textarea></label>
+    </div>
+
+    <div class="tabpanel" data-panel="github" hidden>
+      <p>Keep a <code>games.json</code> in your GitHub profile repo (<code>your-name/your-name</code>). The card updates whenever you edit it, and the embed code never changes.</p>
+      <ol class="steps">
+        <li><button id="dlJson" type="button" class="ghost">Download games.json</button> and commit it to the root of your profile repo.</li>
+        <li>Paste this into your README or site:</li>
+      </ol>
+      <label class="field">Your GitHub username<input id="ghUser" placeholder="your-username"></label>
+      <label class="field">Markdown<textarea id="mdGh" readonly rows="3"></textarea></label>
+      <label class="field">HTML<textarea id="htmlGh" readonly rows="3"></textarea></label>
+    </div>
+
+    <div class="tabpanel" data-panel="files" hidden>
+      <p>Save the card as an image to post anywhere, like Discord, X or a stream overlay.</p>
+      <div class="row">
+        <button id="dlSvg" type="button">Download SVG</button>
+        <button id="dlPng" type="button">Download PNG</button>
+      </div>
+      <p id="dlStatus" class="hint" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="picks-h">
+    <h2 id="picks-h"><span class="step">4</span> Let visitors pick your next game</h2>
+    <p>Visitors recommend games by opening an issue on your repo, and vote with 👍. The leaderboard updates by itself.</p>
+    <label class="field">Repo that collects picks<input id="picksRepo" placeholder="your-username/your-username"></label>
+    <div class="preview"><img id="picksPreview" alt="Community picks preview" hidden></div>
+    <label class="field">Markdown<textarea id="mdPicks" readonly rows="5"></textarea></label>
+    <details>
+      <summary>Optional: a nicer “Recommend a game” form</summary>
+      <p>Save this as <code>.github/ISSUE_TEMPLATE/recommend-game.yml</code> in that repo.</p>
+      <textarea id="template" readonly rows="10"></textarea>
+    </details>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>Game info and cover art from <a href="https://en.wikipedia.org">Wikipedia</a>. Text is CC BY-SA, and cover art is used under fair use and belongs to its publishers. Every card links back to its Wikipedia article.</p>
+  <p>Made by <a href="https://github.com/Josiassejod1">Dalvin Josias Sejour</a> · <a href="https://github.com/Josiassejod1/gamer-card">Source</a></p>
+</footer>
+
+<template id="gameTpl">
+  <li class="game">
+    <img class="thumb" alt="">
+    <div class="meta">
+      <strong class="title"></strong>
+      <span class="desc"></span>
+      <span class="controls">
+        <select class="platform" aria-label="Platform"></select>
+        <select class="status" aria-label="Status"></select>
+      </span>
+    </div>
+    <span class="actions"></span>
+  </li>
+</template>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>

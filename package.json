@@ -1,0 +1,13 @@
+{
+  "name": "gamer-card",
+  "version": "1.0.0",
+  "description": "Embeddable \"now playing\" gaming cards for GitHub READMEs and websites. Game info and cover art from Wikipedia.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Dalvin Josias Sejour (https://github.com/Josiassejod1)",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/*.test.js"
+  }
+}
