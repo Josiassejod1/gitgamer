@@ -1,6 +1,6 @@
 # 🎮 gitgamer
 
-[![CI](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md)
+[![CI](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md) [![Used by](https://img.shields.io/endpoint?url=https://gitgamer-tau.vercel.app/api/stats%3Fformat%3Dshields)](https://gitgamer-tau.vercel.app)
 
 Show what you're playing on your GitHub profile, blog or any website, and let visitors vote on what you play next.
 
@@ -12,7 +12,13 @@ Show what you're playing on your GitHub profile, blog or any website, and let vi
 
 **[⭐ Star it](https://github.com/Josiassejod1/gitgamer) · [🍴 Fork it](https://github.com/Josiassejod1/gitgamer/fork)**. Built by [Dalvin Digital](https://www.dalvindigital.com).
 
-Use the builder at the site root to search games, preview your card and copy the embed code.
+### 👉 [Make your card at gitgamer-tau.vercel.app](https://gitgamer-tau.vercel.app)
+
+Search games, preview your card and copy the embed code. No sign-up.
+
+[![Now playing: Marvel's Wolverine](https://gitgamer-tau.vercel.app/api/card?user=Josiassejod1)](https://github.com/Josiassejod1)
+
+<sub>That's a live card, straight from [@Josiassejod1's profile](https://github.com/Josiassejod1).</sub>
 
 ## Embed it
 
@@ -25,11 +31,11 @@ Use the builder at the site root to search games, preview your card and copy the
 | One game, no setup | `/api/card?playing=Hades%20II&platform=PC&name=Sam` | you change the URL |
 
 ```md
-[![Now playing](https://YOUR-DEPLOYMENT/api/card?user=Josiassejod1)](https://github.com/Josiassejod1)
+[![Now playing](https://gitgamer-tau.vercel.app/api/card?user=Josiassejod1)](https://github.com/Josiassejod1)
 ```
 
 ```html
-<a href="https://github.com/Josiassejod1"><img src="https://YOUR-DEPLOYMENT/api/card?user=Josiassejod1" alt="Now playing" width="100%" style="max-width:840px"></a>
+<a href="https://github.com/Josiassejod1"><img src="https://gitgamer-tau.vercel.app/api/card?user=Josiassejod1" alt="Now playing" width="100%" style="max-width:840px"></a>
 ```
 
 ### Options
@@ -67,7 +73,7 @@ See [`examples/games.json`](examples/games.json).
 Any open issue in your repo whose title starts with `[Rec]`, or that has the `game-rec` label, counts as a recommendation. Its 👍 reactions are its votes.
 
 ```md
-[![What should I play next?](https://YOUR-DEPLOYMENT/api/picks?repo=you/you)](https://github.com/you/you/issues?q=is%3Aissue+is%3Aopen+%5BRec%5D+in%3Atitle+sort%3Areactions-%2B1-desc)
+[![What should I play next?](https://gitgamer-tau.vercel.app/api/picks?repo=you/you)](https://github.com/you/you/issues?q=is%3Aissue+is%3Aopen+%5BRec%5D+in%3Atitle+sort%3Areactions-%2B1-desc)
 
 [**➕ Recommend a game**](https://github.com/you/you/issues/new?title=%5BRec%5D+) · [**👍 Vote on picks**](https://github.com/you/you/issues?q=is%3Aissue+is%3Aopen+%5BRec%5D+in%3Atitle+sort%3Areactions-%2B1-desc)
 ```
