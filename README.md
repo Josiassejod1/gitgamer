@@ -29,7 +29,7 @@ Clicking an embedded card opens its page on gitgamer.com (`/card?user=…`), wit
 | `games.json` in your profile repo | `/api/card?user=<github-username>` | you edit `games.json` |
 | `games.json` in any repo | `/api/card?user=<you>&repo=<repo>&path=<file>.json` | you edit the file |
 | A gist | `/api/card?gist=<gist-id>` | you edit the gist |
-| One game, no setup | `/api/card?playing=Hades%20II&platform=PC&name=Sam` | you change the URL |
+| One game, no setup | `/api/card?playing=Hades%20II&platform=PC&username=you` | you change the URL |
 
 ```md
 [![Now playing](https://www.gitgamer.com/api/card?user=Josiassejod1)](https://www.gitgamer.com/card?user=Josiassejod1)
@@ -53,7 +53,7 @@ Clicking an embedded card opens its page on gitgamer.com (`/card?user=…`), wit
 
 ```json
 {
-  "name": "Dalvin",
+  "username": "Josiassejod1",
   "now_playing": { "title": "Marvel's Wolverine", "platform": "PS5", "started": "2026-09-26" },
   "recently_played": [
     { "title": "Astro Bot", "platform": "PS5", "status": "Finished", "ended": "2026-09-20" },
@@ -61,6 +61,8 @@ Clicking an embedded card opens its page on gitgamer.com (`/card?user=…`), wit
   ]
 }
 ```
+
+`username` is your GitHub username, shown on the card as **@username**. For `?user=` cards it's filled in automatically. (Older files may have a free-text `name` instead, which still works.)
 
 Optional per game:
 - `wiki`: the exact Wikipedia article title, used when search picks the wrong page

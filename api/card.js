@@ -45,7 +45,7 @@ export default async function handler(req, res) {
     ]);
     if (asJson) {
       const strip = (g) => g && { title: g.title, platform: g.platform, status: g.status, started: g.started, ended: g.ended, link: g.link, wikipedia: g.wikipedia };
-      return send(res, 200, JSON.stringify({ name: card.name, now_playing: strip(card.now), recently_played: card.recent.map(strip), credit: 'Game info and cover art from Wikipedia' }, null, 2), 'application/json; charset=utf-8', cacheSecondsFor(q));
+      return send(res, 200, JSON.stringify({ username: card.username, name: card.name, now_playing: strip(card.now), recently_played: card.recent.map(strip), credit: 'Game info and cover art from Wikipedia' }, null, 2), 'application/json; charset=utf-8', cacheSecondsFor(q));
     }
     return send(res, 200, renderCard(card, opts), 'image/svg+xml; charset=utf-8', cacheSecondsFor(q));
   } catch (e) {

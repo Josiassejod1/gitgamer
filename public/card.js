@@ -51,7 +51,7 @@ try {
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Could not load this card');
 
-  const who = data.name || (params.get('user') ? `@${params.get('user')}` : '');
+  const who = data.username ? `@${data.username}` : data.name;
   $('heading').textContent = who ? `What ${who} is playing` : 'Now playing';
   document.title = who ? `${who}'s gitgamer card` : 'gitgamer card';
   $('card').alt = data.now_playing ? `Now playing: ${data.now_playing.title}` : 'gitgamer card';

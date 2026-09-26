@@ -57,6 +57,18 @@ test('data= embeds work with no GitHub file', async () => {
   assert.match(res.headers['cache-control'], /s-maxage=21600, stale-while-revalidate=86400/, 'link-only cards never change, so cache them longer');
 });
 
+test('cards show the GitHub username, falling back to the name', async () => {
+  const byUser = await call(card, '/api/card?user=dalvin');
+  assert.match(byUser.body, /@dalvin · PLAYER 1/, 'a games.json in a repo belongs to that user');
+  const json = JSON.parse((await call(card, '/api/card?user=dalvin&format=json')).body);
+  assert.equal(json.username, 'dalvin');
+
+  const linked = await call(card, `/api/card?data=${encodeData({ ...GAMES, username: 'Josiassejod1' })}`);
+  assert.match(linked.body, /@Josiassejod1 · PLAYER 1/);
+  const invalid = await call(card, `/api/card?data=${encodeData({ ...GAMES, username: '<b>bad</b>' })}`);
+  assert.match(invalid.body, /DALVIN · PLAYER 1/, 'invalid usernames are ignored');
+});
+
 test('playing= quick embed', async () => {
   const res = await call(card, '/api/card?playing=Elden%20Ring&platform=PC&name=Sam');
   assert.match(res.body, /Elden Ring/);

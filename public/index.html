@@ -30,17 +30,13 @@
       <button id="resetBtn" type="button" class="ghost small">Start over</button>
     </p>
 
-    <div class="row">
-      <label class="field">Your name (optional)
-        <input id="name" maxlength="40" placeholder="e.g. Dalvin">
-      </label>
-      <label class="field">Load an existing games.json from GitHub
-        <span class="inline">
-          <input id="importUser" placeholder="GitHub username">
-          <button id="importBtn" type="button" class="ghost">Load</button>
-        </span>
-      </label>
-    </div>
+    <label class="field">Your GitHub username
+      <span class="inline">
+        <input id="username" maxlength="39" placeholder="e.g. Josiassejod1" autocomplete="username" spellcheck="false">
+        <button id="importBtn" type="button" class="ghost">Load my games.json</button>
+      </span>
+      <span class="hint">Shows as @username on your card. Already have a games.json? Load it to keep editing.</span>
+    </label>
 
     <label class="field">Search for a game
       <input id="search" type="search" placeholder="Hades II, Elden Ring, Astro Bot…" autocomplete="off">
@@ -96,9 +92,8 @@
       <p>Keep a <code>games.json</code> in your GitHub profile repo (<code>your-name/your-name</code>). The card updates whenever you edit it, and the embed code never changes.</p>
       <ol class="steps">
         <li><button id="dlJson" type="button" class="ghost">Download games.json</button> and commit it to the root of your profile repo.</li>
-        <li>Paste this into your README or site:</li>
+        <li>Paste this into your README or site. It uses the GitHub username from step 1.</li>
       </ol>
-      <label class="field">Your GitHub username<input id="ghUser" placeholder="your-username"></label>
       <label class="field">Markdown<textarea id="mdGh" readonly rows="3"></textarea></label>
       <label class="field">HTML<textarea id="htmlGh" readonly rows="3"></textarea></label>
     </div>

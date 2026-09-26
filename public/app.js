@@ -4,8 +4,11 @@ const PLATFORMS = ['', 'PC', 'PS5', 'PS4', 'Xbox Series X|S', 'Xbox One', 'Switc
 const STATUSES = ['Finished', 'Played', 'Dropped', 'On hold', '100%'];
 const STORE_KEY = 'gitgamer-draft';
 const today = () => new Date().toISOString().slice(0, 10);
+const validUsername = (u) => typeof u === 'string' && /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/.test(u);
+// People often type their handle as @name; accept that.
+const readUsername = () => $('username').value.trim().replace(/^@/, '');
 
-let state = load() || { name: '', now_playing: null, recently_played: [] };
+let state = load() || { username: '', now_playing: null, recently_played: [] };
 
 // Shown in the preview until someone adds a game, and loadable with "Try an example list".
 const EXAMPLE = {
@@ -39,7 +42,7 @@ const exportGame = (g, recent) => {
 };
 function exportData() {
   const data = {};
-  if (state.name) data.name = state.name;
+  if (state.username) data.username = state.username;
   if (state.now_playing) data.now_playing = exportGame(state.now_playing, false);
   data.recently_played = state.recently_played.map((g) => exportGame(g, true));
   return data;
@@ -120,7 +123,7 @@ function gameRow(game, { actions = [], editable = false, recent = false } = {}) 
 }
 
 function renderLists() {
-  $('name').value = state.name || '';
+  $('username').value = state.username || '';
   const now = $('nowSlot');
   now.dataset.empty = 'Search above and pick “Now playing”.';
   now.replaceChildren();
@@ -197,7 +200,7 @@ let previewTimer;
 function renderOutputs() {
   clearTimeout(previewTimer);
   const empty = isEmpty();
-  const example = { ...EXAMPLE, name: state.name, now_playing: { ...EXAMPLE.now_playing, started: today() } };
+  const example = { ...EXAMPLE, username: state.username, now_playing: { ...EXAMPLE.now_playing, started: today() } };
   previewTimer = setTimeout(() => { $('preview').src = quickUrl(empty ? example : exportData()); }, 300);
   $('previewNote').hidden = !empty;
   document.querySelectorAll('.needs-games').forEach((el) => { el.hidden = empty; });
@@ -207,7 +210,7 @@ function renderOutputs() {
   $('mdQuick').value = quick.md;
   $('htmlQuick').value = quick.html;
 
-  const user = $('ghUser').value.trim();
+  const user = validUsername(state.username) ? state.username : '';
   const gh = snippets(ghUrl(user));
   $('mdGh').value = gh.md;
   $('htmlGh').value = gh.html;
@@ -280,19 +283,18 @@ function clearSearch() {
 
 // ---------- import ----------
 $('importBtn').onclick = async () => {
-  const user = $('importUser').value.trim();
-  if (!/^[A-Za-z0-9-]{1,39}$/.test(user)) { $('searchStatus').textContent = 'Enter a valid GitHub username.'; return; }
+  const user = readUsername();
+  if (!validUsername(user)) { $('searchStatus').textContent = 'Enter your GitHub username first.'; $('username').focus(); return; }
   $('searchStatus').textContent = `Loading ${user}/${user}/games.json…`;
   try {
     const res = await fetch(`https://raw.githubusercontent.com/${user}/${user}/HEAD/games.json`);
     if (!res.ok) throw new Error(res.status === 404 ? 'No games.json in that profile repo yet.' : `GitHub returned ${res.status}`);
     const data = await res.json();
     state = {
-      name: typeof data.name === 'string' ? data.name : '',
+      username: user,
       now_playing: data.now_playing?.title ? { ...data.now_playing } : null,
       recently_played: Array.isArray(data.recently_played) ? data.recently_played.filter((g) => g?.title).slice(0, 12) : [],
     };
-    $('ghUser').value = user;
     $('searchStatus').textContent = 'Loaded!';
     changed();
   } catch (e) {
@@ -334,10 +336,10 @@ $('dlPng').onclick = async () => {
 
 // ---------- wiring ----------
 $('resetBtn').onclick = () => {
-  if (!confirm('Clear your name and games and start over?')) return;
+  if (!confirm('Clear your username and games and start over?')) return;
   try { localStorage.removeItem(STORE_KEY); } catch { /* storage unavailable */ }
-  state = { name: '', now_playing: null, recently_played: [] };
-  ['importUser', 'ghUser', 'search'].forEach((id) => { $(id).value = ''; });
+  state = { username: '', now_playing: null, recently_played: [] };
+  ['username', 'search'].forEach((id) => { $(id).value = ''; });
   clearSearch();
   changed();
 };
@@ -345,8 +347,12 @@ for (const id of ['theme', 'layout', 'accent']) $(id).addEventListener('input', 
   if (id === 'theme') $('accent').value = `#${defaultAccent()}`;
   renderOutputs();
 });
-$('name').addEventListener('input', () => { state.name = $('name').value.slice(0, 40); save(); renderOutputs(); });
-$('ghUser').addEventListener('input', renderOutputs);
+$('username').addEventListener('input', () => {
+  const value = readUsername();
+  state.username = validUsername(value) ? value : '';
+  save();
+  renderOutputs();
+});
 
 document.querySelectorAll('.tab').forEach((tab) => {
   tab.onclick = () => {
