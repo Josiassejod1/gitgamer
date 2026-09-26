@@ -40,7 +40,7 @@ test('renders a card from a games.json in the profile repo', async () => {
   const res = await call(card, '/api/card?user=dalvin');
   assert.equal(res.statusCode, 200);
   assert.match(res.headers['content-type'], /image\/svg\+xml/);
-  assert.match(res.headers['cache-control'], /s-maxage=3600/);
+  assert.equal(res.headers['cache-control'], 'public, max-age=300, s-maxage=300, stale-while-revalidate=600', 'games.json cards refresh within minutes');
   assert.match(res.body, /Marvel&#39;s Wolverine/);
   assert.match(res.body, /NOW PLAYING/);
   assert.match(res.body, /RECENTLY PLAYED/);
@@ -65,6 +65,7 @@ test('data= embeds work with no GitHub file', async () => {
   assert.ok(!res.body.includes('RECENTLY PLAYED'), 'compact layout hides history');
   assert.match(res.body, /width="500"/);
   assert.ok(!calls.some((u) => u.includes('githubusercontent')));
+  assert.match(res.headers['cache-control'], /s-maxage=21600, stale-while-revalidate=86400/, 'link-only cards never change, so cache them longer');
 });
 
 test('playing= quick embed', async () => {

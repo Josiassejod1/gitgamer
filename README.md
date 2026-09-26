@@ -86,7 +86,7 @@ It runs on Vercel with zero dependencies: import the repo and deploy.
 
 Set a **`GITHUB_TOKEN`** environment variable (a fine-grained token with no extra permissions is enough). Without one, GitHub allows only 60 API requests per hour per IP. That limit affects community picks and gist sources, and Vercel's IPs are shared. `games.json` from a repo is read from `raw.githubusercontent.com`, which doesn't need a token.
 
-Cards are cached at the edge for an hour (picks for 10 minutes). Wikipedia lookups and images are also cached in memory.
+Cards that read a `games.json` or gist are cached for 5 minutes, so an edit shows up within about 10 minutes (GitHub caches the raw file for up to 5). Link-only cards are cached for 6 hours, and picks for 10 minutes. Wikipedia lookups and images are also cached in memory.
 
 ### Usage stats (optional)
 

@@ -20,6 +20,13 @@ function trackSource(q) {
   return null;
 }
 
+// Cards backed by a games.json or gist change when their owner edits the file, so keep them
+// fresh (GitHub's raw file cache adds up to 5 more minutes). ?data= and ?playing= cards are
+// fully described by their URL, so they can be cached much longer.
+const LIVE_CACHE_SECONDS = 300;
+const FIXED_CACHE_SECONDS = 6 * 60 * 60;
+const cacheSecondsFor = (q) => (!q.get('data') && (q.get('user') || q.get('gist')) ? LIVE_CACHE_SECONDS : FIXED_CACHE_SECONDS);
+
 export default async function handler(req, res) {
   const q = queryOf(req);
   const opts = {
@@ -38,9 +45,9 @@ export default async function handler(req, res) {
     ]);
     if (asJson) {
       const strip = (g) => g && { title: g.title, platform: g.platform, status: g.status, started: g.started, ended: g.ended, link: g.link, wikipedia: g.wikipedia };
-      return send(res, 200, JSON.stringify({ name: card.name, now_playing: strip(card.now), recently_played: card.recent.map(strip), credit: 'Game info and cover art from Wikipedia' }, null, 2), 'application/json; charset=utf-8', 3600);
+      return send(res, 200, JSON.stringify({ name: card.name, now_playing: strip(card.now), recently_played: card.recent.map(strip), credit: 'Game info and cover art from Wikipedia' }, null, 2), 'application/json; charset=utf-8', cacheSecondsFor(q));
     }
-    return send(res, 200, renderCard(card, opts), 'image/svg+xml; charset=utf-8', 3600);
+    return send(res, 200, renderCard(card, opts), 'image/svg+xml; charset=utf-8', cacheSecondsFor(q));
   } catch (e) {
     const message = e instanceof SourceError ? e.message : 'Something went wrong';
     if (!(e instanceof SourceError)) console.error(e);
