@@ -69,10 +69,13 @@
       </label>
     </div>
     <div class="preview"><img id="preview" alt="Your gitgamer card preview"></div>
+    <p id="previewNote" class="hint preview-note" hidden>👆 This is an example card. Add a game above to make it yours.</p>
   </section>
 
   <section class="panel" aria-labelledby="export-h">
     <h2 id="export-h"><span class="step">3</span> Export &amp; embed</h2>
+    <p class="needs-games-hint empty-export" hidden>Add at least one game in step 1 to get your embed code, downloads and share link.</p>
+    <div class="needs-games">
     <p class="share-row">
       <a id="shareCard" class="btn" href="https://x.com/intent/tweet" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg> Share what I'm playing</a>
       <span class="hint">Opens X with a ready-to-post message. Tip: download the PNG first and attach it.</span>
@@ -107,6 +110,7 @@
         <button id="dlPng" type="button">Download PNG</button>
       </div>
       <p id="dlStatus" class="hint" aria-live="polite"></p>
+    </div>
     </div>
   </section>
 

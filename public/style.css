@@ -25,6 +25,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body {
   margin: 0; background: var(--bg); color: var(--text);
   font: 16px/1.5 system-ui, -apple-system, 'Segoe UI', Ubuntu, sans-serif;
@@ -43,6 +44,9 @@ h1 { font-size: clamp(36px, 7vw, 56px); margin: 4px 0 8px; line-height: 1.05; }
 .btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
 .btn:hover { filter: brightness(1.1); }
 .saved-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: -8px 0 4px; }
+.empty-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; margin: 0; }
+.preview-note { text-align: center; margin: 8px 0 0; }
+.empty-export { color: var(--muted); background: var(--panel-2); border: 1px dashed var(--border); border-radius: 10px; padding: 14px; margin: 0; }
 .share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 12px; }
 .ico { width: 16px; height: 16px; flex: none; }
 

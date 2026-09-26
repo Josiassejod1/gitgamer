@@ -7,6 +7,18 @@ const today = () => new Date().toISOString().slice(0, 10);
 
 let state = load() || { name: '', now_playing: null, recently_played: [] };
 
+// Shown in the preview until someone adds a game, and loadable with "Try an example list".
+const EXAMPLE = {
+  now_playing: { title: 'Hades II', platform: 'PC', wiki: 'Hades II' },
+  recently_played: [
+    { title: 'Elden Ring', platform: 'PS5', status: 'Finished', wiki: 'Elden Ring' },
+    { title: 'Astro Bot', platform: 'PS5', status: '100%', wiki: 'Astro Bot' },
+    { title: "Baldur's Gate 3", platform: 'PC', status: 'Finished', wiki: "Baldur's Gate 3" },
+    { title: 'Tears of the Kingdom', platform: 'Switch', status: 'Played', wiki: 'The Legend of Zelda: Tears of the Kingdom' },
+  ],
+};
+const isEmpty = () => !state.now_playing && !state.recently_played.length;
+
 // ---------- persistence (per-browser convenience only) ----------
 function load() {
   try { return JSON.parse(localStorage.getItem(STORE_KEY)); } catch { return null; }
@@ -49,9 +61,9 @@ function styleParams() {
 const ACCENTS = { dark: 'f472b6', light: 'db2777', neon: 'f15bb5', retro: 'ff8c42' };
 const defaultAccent = () => ACCENTS[$('theme').value];
 
-function quickUrl() {
+function quickUrl(data = exportData()) {
   const p = styleParams();
-  p.set('data', base64url(JSON.stringify(exportData())));
+  p.set('data', base64url(JSON.stringify(data)));
   return `${ORIGIN}/api/card?${p}`;
 }
 function ghUrl(user) {
@@ -118,6 +130,22 @@ function renderLists() {
       ],
     }));
     now.append(ul);
+  } else if (isEmpty()) {
+    const p = document.createElement('p');
+    p.className = 'empty-cta';
+    p.append('Search above and pick “Now playing”, or ');
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'small ghost';
+    b.textContent = 'Try an example list';
+    b.onclick = () => {
+      const d = today();
+      state.now_playing = { ...EXAMPLE.now_playing, started: d };
+      state.recently_played = EXAMPLE.recently_played.map((g) => ({ ...g, ended: d }));
+      changed();
+    };
+    p.append(b);
+    now.append(p);
   }
 
   const list = $('recentList');
@@ -163,7 +191,12 @@ function addRecent(game) {
 let previewTimer;
 function renderOutputs() {
   clearTimeout(previewTimer);
-  previewTimer = setTimeout(() => { $('preview').src = quickUrl(); }, 300);
+  const empty = isEmpty();
+  const example = { ...EXAMPLE, name: state.name, now_playing: { ...EXAMPLE.now_playing, started: today() } };
+  previewTimer = setTimeout(() => { $('preview').src = quickUrl(empty ? example : exportData()); }, 300);
+  $('previewNote').hidden = !empty;
+  document.querySelectorAll('.needs-games').forEach((el) => { el.hidden = empty; });
+  document.querySelectorAll('.needs-games-hint').forEach((el) => { el.hidden = !empty; });
 
   const quick = snippets(quickUrl(), '');
   $('mdQuick').value = quick.md;
