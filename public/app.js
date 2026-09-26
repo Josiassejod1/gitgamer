@@ -337,6 +337,14 @@ function renderPicks() {
 }
 
 // ---------- wiring ----------
+$('resetBtn').onclick = () => {
+  if (!confirm('Clear your name and games and start over?')) return;
+  try { localStorage.removeItem(STORE_KEY); } catch { /* storage unavailable */ }
+  state = { name: '', now_playing: null, recently_played: [] };
+  ['importUser', 'ghUser', 'picksRepo', 'search'].forEach((id) => { $(id).value = ''; });
+  clearSearch();
+  changed();
+};
 for (const id of ['theme', 'layout', 'accent']) $(id).addEventListener('input', () => {
   if (id === 'theme') $('accent').value = `#${defaultAccent()}`;
   renderOutputs();

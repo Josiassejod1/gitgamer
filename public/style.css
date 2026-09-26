@@ -42,6 +42,7 @@ h1 { font-size: clamp(36px, 7vw, 56px); margin: 4px 0 8px; line-height: 1.05; }
 .btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 10px; font-weight: 700; text-decoration: none; background: var(--accent); color: #fff; border: 1px solid transparent; }
 .btn.ghost { background: transparent; color: var(--text); border-color: var(--border); }
 .btn:hover { filter: brightness(1.1); }
+.saved-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: -8px 0 4px; }
 .share-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 12px; }
 .ico { width: 16px; height: 16px; flex: none; }
 
