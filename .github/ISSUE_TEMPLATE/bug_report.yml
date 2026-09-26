@@ -6,7 +6,7 @@ body:
     id: url
     attributes:
       label: Card URL
-      description: The /api/card or /api/picks link that shows the problem (remove anything private)
+      description: The /api/card link that shows the problem (remove anything private)
   - type: textarea
     id: what
     attributes:

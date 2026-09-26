@@ -207,7 +207,6 @@ function renderOutputs() {
   $('mdGh').value = gh.md;
   $('htmlGh').value = gh.html;
 
-  renderPicks();
   renderShare();
 }
 
@@ -221,11 +220,11 @@ function renderShare() {
   const now = state.now_playing;
   const platform = now?.platform ? ` on ${now.platform}` : '';
   const text = now
-    ? `🎮 Now playing: ${now.title}${platform}.\n\nWhat should I play next? Made my gamer card with gitgamer:`
-    : '🎮 Made a gamer card for my GitHub profile with gitgamer. Show what you play and let visitors pick your next game:';
+    ? `🎮 Now playing: ${now.title}${platform}.\n\nMade my gamer card with gitgamer:`
+    : '🎮 Made a gamer card for my GitHub profile with gitgamer. Show what you are playing, anywhere:';
   $('shareCard').href = tweetUrl(text, SHARE_URL);
 }
-$('shareTool').href = tweetUrl('🎮 gitgamer: show what you are playing on your GitHub profile, and let visitors vote on what you play next. Free and open source.', SHARE_URL);
+$('shareTool').href = tweetUrl('🎮 gitgamer: show what you are playing on your GitHub profile, blog or site. Free and open source.', SHARE_URL);
 
 function changed() {
   save();
@@ -332,7 +331,6 @@ $('importBtn').onclick = async () => {
       recently_played: Array.isArray(data.recently_played) ? data.recently_played.filter((g) => g?.title).slice(0, 12) : [],
     };
     $('ghUser').value = user;
-    $('picksRepo').value ||= `${user}/${user}`;
     $('searchStatus').textContent = 'Loaded!';
     changed();
     fillThumbnails();
@@ -373,52 +371,12 @@ $('dlPng').onclick = async () => {
   }
 };
 
-// ---------- community picks ----------
-const TEMPLATE = `name: 🎮 Recommend a game
-description: Tell me what to play next. Others vote with 👍!
-title: "[Rec] "
-labels: ["game-rec"]
-body:
-  - type: input
-    id: game
-    attributes:
-      label: Game
-      description: The game's title, e.g. "Hades II"
-    validations:
-      required: true
-  - type: textarea
-    id: why
-    attributes:
-      label: Why should I play it?
-      description: Sell it to me. No spoilers!
-`;
-$('template').value = TEMPLATE;
-
-let picksTimer;
-function renderPicks() {
-  const repo = $('picksRepo').value.trim();
-  const valid = /^[A-Za-z0-9-]{1,39}\/[A-Za-z0-9._-]{1,100}$/.test(repo);
-  const shown = valid ? repo : 'your-username/your-username';
-  const p = styleParams();
-  p.delete('layout');
-  p.set('repo', shown);
-  const img = `${ORIGIN}/api/picks?${p}`;
-  const vote = `https://github.com/${shown}/issues?q=is%3Aissue+is%3Aopen+%5BRec%5D+in%3Atitle+sort%3Areactions-%2B1-desc`;
-  const recommend = `https://github.com/${shown}/issues/new?title=%5BRec%5D+`;
-  $('mdPicks').value = `[![What should I play next?](${img})](${vote})\n\n[**➕ Recommend a game**](${recommend}) · [**👍 Vote on picks**](${vote})`;
-  clearTimeout(picksTimer);
-  picksTimer = setTimeout(() => {
-    $('picksPreview').hidden = !valid;
-    if (valid) $('picksPreview').src = img;
-  }, 400);
-}
-
 // ---------- wiring ----------
 $('resetBtn').onclick = () => {
   if (!confirm('Clear your name and games and start over?')) return;
   try { localStorage.removeItem(STORE_KEY); } catch { /* storage unavailable */ }
   state = { name: '', now_playing: null, recently_played: [] };
-  ['importUser', 'ghUser', 'picksRepo', 'search'].forEach((id) => { $(id).value = ''; });
+  ['importUser', 'ghUser', 'search'].forEach((id) => { $(id).value = ''; });
   clearSearch();
   changed();
 };
@@ -428,7 +386,6 @@ for (const id of ['theme', 'layout', 'accent']) $(id).addEventListener('input', 
 });
 $('name').addEventListener('input', () => { state.name = $('name').value.slice(0, 40); save(); renderOutputs(); });
 $('ghUser').addEventListener('input', renderOutputs);
-$('picksRepo').addEventListener('input', renderPicks);
 
 document.querySelectorAll('.tab').forEach((tab) => {
   tab.onclick = () => {

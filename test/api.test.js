@@ -1,10 +1,8 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import card from '../api/card.js';
-import picks from '../api/picks.js';
 import { encodeData } from '../lib/sources.js';
 import { clearCaches, isAllowedImageUrl } from '../lib/wiki.js';
-import { clearPicksCache } from '../lib/picks.js';
 import { mockFetch, call } from './helpers.js';
 
 const GAMES = {
@@ -19,20 +17,10 @@ const GAMES = {
 let calls;
 beforeEach(() => {
   clearCaches();
-  clearPicksCache();
   calls = [];
   globalThis.fetch = mockFetch({
     calls,
     files: { '/dalvin/dalvin/HEAD/games.json': GAMES, '/bad/bad/HEAD/games.json': '{nope' },
-    issues: {
-      'dalvin/dalvin': [
-        { title: '[Rec] Hades II', body: '### Game\n\nHades II', user: { login: 'alice' }, reactions: { '+1': 3 }, html_url: 'u1', created_at: '2026-09-01', labels: [] },
-        { title: 'Bug: typo', body: '', user: { login: 'x' }, reactions: { '+1': 99 }, html_url: 'u2', created_at: '2026-09-01', labels: [] },
-        { title: 'Silksong!', body: '', user: { login: 'bob' }, reactions: { '+1': 7 }, html_url: 'u3', created_at: '2026-09-02', labels: [{ name: 'game-rec' }] },
-        { title: '[Rec] <script>alert(1)</script>', body: '', user: { login: 'eve' }, reactions: { '+1': 1 }, html_url: 'u4', created_at: '2026-09-03', labels: [] },
-        { title: '[Rec] a PR', pull_request: {}, body: '', user: { login: 'z' }, reactions: { '+1': 50 }, html_url: 'u5', created_at: '2026-09-03', labels: [] },
-      ],
-    },
   });
 });
 
@@ -122,19 +110,4 @@ test('Wikipedia results are cached between requests', async () => {
   const first = calls.filter((u) => u.includes('wikipedia')).length;
   await call(card, '/api/card?user=dalvin');
   assert.equal(calls.filter((u) => u.includes('wikipedia')).length, first);
-});
-
-test('community picks: ranks [Rec] / labeled issues by 👍, ignores PRs and other issues', async () => {
-  const res = await call(picks, '/api/picks?repo=dalvin/dalvin&format=json');
-  const { picks: list } = JSON.parse(res.body);
-  assert.deepEqual(list.map((p) => [p.title, p.votes]), [['Silksong!', 7], ['Hades II', 3], ['<script>alert(1)</script>', 1]]);
-
-  const svg = await call(picks, '/api/picks?repo=dalvin/dalvin');
-  assert.match(svg.body, /WHAT SHOULD I PLAY NEXT/);
-  assert.ok(!svg.body.includes('<script>'));
-
-  const bad = await call(picks, '/api/picks?repo=nope');
-  assert.match(bad.body, /owner\/name/);
-  const missing = await call(picks, '/api/picks?repo=a/b');
-  assert.match(missing.body, /not found/);
 });

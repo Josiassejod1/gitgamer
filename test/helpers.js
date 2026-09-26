@@ -31,9 +31,9 @@ export function tinyPng() {
 
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'content-type': 'application/json' } });
 
-// Fake Wikipedia + GitHub. `files` maps raw.githubusercontent paths to JSON bodies, `issues` maps repo -> issues.
+// Fake Wikipedia + GitHub. `files` maps raw.githubusercontent paths to JSON bodies.
 // `redis` is an in-memory stand-in for Upstash's REST pipeline API (SADD / SCARD only).
-export function mockFetch({ files = {}, issues = {}, calls = [], redis = null } = {}) {
+export function mockFetch({ files = {}, calls = [], redis = null } = {}) {
   return async (input, opts = {}) => {
     const url = new URL(String(input));
     calls.push(url.href);
@@ -75,11 +75,6 @@ export function mockFetch({ files = {}, issues = {}, calls = [], redis = null } 
     if (url.hostname === 'raw.githubusercontent.com') {
       const body = files[url.pathname];
       return body === undefined ? new Response('404', { status: 404 }) : new Response(typeof body === 'string' ? body : JSON.stringify(body));
-    }
-    if (url.hostname === 'api.github.com') {
-      const m = url.pathname.match(/^\/repos\/([^/]+\/[^/]+)\/issues$/);
-      if (m && issues[m[1]]) return json(issues[m[1]]);
-      return json({ message: 'Not Found' }, 404);
     }
     throw new Error(`Unexpected fetch in test: ${url.href}`);
   };

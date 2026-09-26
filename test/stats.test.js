@@ -1,11 +1,9 @@
 import { test, beforeEach } from 'node:test';
 import assert from 'node:assert/strict';
 import card from '../api/card.js';
-import picks from '../api/picks.js';
 import stats from '../api/stats.js';
 import { encodeData } from '../lib/sources.js';
 import { clearCaches } from '../lib/wiki.js';
-import { clearPicksCache } from '../lib/picks.js';
 import { mockFetch, call } from './helpers.js';
 
 const GAMES = { now_playing: { title: 'Astro Bot', platform: 'PS5' } };
@@ -14,7 +12,6 @@ let calls;
 
 function setup({ enabled = true } = {}) {
   clearCaches();
-  clearPicksCache();
   calls = [];
   redis = { sets: {}, down: false };
   if (enabled) {
@@ -28,7 +25,6 @@ function setup({ enabled = true } = {}) {
     calls,
     redis,
     files: { '/alice/alice/HEAD/games.json': GAMES, '/bob/bob/HEAD/games.json': GAMES },
-    issues: { 'alice/alice': [] },
   });
 }
 beforeEach(() => setup());
@@ -39,7 +35,7 @@ test('counts each GitHub user once, case-insensitively', async () => {
   await call(card, '/api/card?user=alice');
   await call(card, '/api/card?user=Alice&theme=light');
   await call(card, '/api/card?user=bob');
-  assert.deepEqual(await count(), { gamers: 2, picks_boards: 0 });
+  assert.deepEqual(await count(), { gamers: 2 });
 });
 
 test('does not count anonymous links or failed loads', async () => {
@@ -47,13 +43,7 @@ test('does not count anonymous links or failed loads', async () => {
   await call(card, '/api/card?playing=Hades');
   await call(card, '/api/card?user=nobody');
   await call(card, '/api/card?user=../x');
-  assert.deepEqual(await count(), { gamers: 0, picks_boards: 0 });
-});
-
-test('counts picks boards', async () => {
-  await call(picks, '/api/picks?repo=alice/alice');
-  await call(picks, '/api/picks?repo=nope/missing');
-  assert.equal((await count()).picks_boards, 1);
+  assert.deepEqual(await count(), { gamers: 0 });
 });
 
 test('badge and shields formats', async () => {

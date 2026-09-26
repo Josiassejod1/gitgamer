@@ -2,11 +2,10 @@
 
 [![CI](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md) [![Used by](https://img.shields.io/endpoint?url=https://gitgamer-tau.vercel.app/api/stats%3Fformat%3Dshields)](https://gitgamer-tau.vercel.app)
 
-Show what you're playing on your GitHub profile, blog or any website, and let visitors vote on what you play next.
+Show what you're playing on your GitHub profile, blog or any website.
 
 - **Now playing + recently played** card, as an SVG that works anywhere an image does
 - **Game info and cover art from Wikipedia**, credited and linked on every card
-- **Community picks:** visitors recommend games through GitHub issues and vote with 👍
 - **Exportable:** Markdown, HTML, SVG or PNG. Four themes, full or compact layout, custom accent color
 - **No sign-up, no database:** your list lives in the embed link or in a `games.json` you own
 
@@ -68,35 +67,23 @@ Optional per game:
 
 See [`examples/games.json`](examples/games.json).
 
-## Community picks ("What should I play next?")
-
-Any open issue in your repo whose title starts with `[Rec]`, or that has the `game-rec` label, counts as a recommendation. Its 👍 reactions are its votes.
-
-```md
-[![What should I play next?](https://gitgamer-tau.vercel.app/api/picks?repo=you/you)](https://github.com/you/you/issues?q=is%3Aissue+is%3Aopen+%5BRec%5D+in%3Atitle+sort%3Areactions-%2B1-desc)
-
-[**➕ Recommend a game**](https://github.com/you/you/issues/new?title=%5BRec%5D+) · [**👍 Vote on picks**](https://github.com/you/you/issues?q=is%3Aissue+is%3Aopen+%5BRec%5D+in%3Atitle+sort%3Areactions-%2B1-desc)
-```
-
-For a nicer form, the builder gives you an issue template to drop into `.github/ISSUE_TEMPLATE/`.
-
 ## Deploy
 
 It runs on Vercel with zero dependencies: import the repo and deploy.
 
-Set a **`GITHUB_TOKEN`** environment variable (a fine-grained token with no extra permissions is enough). Without one, GitHub allows only 60 API requests per hour per IP. That limit affects community picks and gist sources, and Vercel's IPs are shared. `games.json` from a repo is read from `raw.githubusercontent.com`, which doesn't need a token.
+Set a **`GITHUB_TOKEN`** environment variable (a fine-grained token with no extra permissions is enough). Without one, GitHub allows only 60 API requests per hour per IP. That limit affects gist sources, and Vercel's IPs are shared. `games.json` from a repo is read from `raw.githubusercontent.com`, which doesn't need a token.
 
-Cards that read a `games.json` or gist are cached for 5 minutes, so an edit shows up within about 10 minutes (GitHub caches the raw file for up to 5). Link-only cards are cached for 6 hours, and picks for 10 minutes. Wikipedia lookups and images are also cached in memory.
+Cards that read a `games.json` or gist are cached for 5 minutes, so an edit shows up within about 10 minutes (GitHub caches the raw file for up to 5). Link-only cards are cached for 6 hours. Wikipedia lookups and images are also cached in memory.
 
 ### Usage stats (optional)
 
-Want to know how many people use your deployment? In Vercel, go to **Storage → Create → Upstash Redis** (free tier) and connect it to the project. gitgamer then counts unique GitHub users with a card, and repos with a picks board.
+Want to know how many people use your deployment? In Vercel, go to **Storage → Create → Upstash Redis** (free tier) and connect it to the project. gitgamer then counts unique GitHub users with a card.
 
-- `/api/stats` returns `{"gamers": 250, "picks_boards": 40}`
+- `/api/stats` returns `{"gamers": 250}`
 - `/api/stats?format=badge` returns an SVG "🎮 used by 250 gamers" badge
 - `/api/stats?format=shields` works with `https://img.shields.io/endpoint?url=...`
 
-Only public identifiers are stored (GitHub usernames, gist ids and repo names that are already in card URLs). Link-only (`?data=`) and `?playing=` cards aren't counted. Without Upstash, nothing is recorded and everything else works the same.
+Only public identifiers are stored (GitHub usernames and gist ids that are already in card URLs). Link-only (`?data=`) and `?playing=` cards aren't counted. Without Upstash, nothing is recorded and everything else works the same.
 
 ## Develop
 
