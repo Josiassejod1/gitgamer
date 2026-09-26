@@ -1,5 +1,8 @@
 {
   "functions": {
-    "api/*.js": { "maxDuration": 15 }
-  }
+    "api/*.js": {
+      "maxDuration": 15
+    }
+  },
+  "cleanUrls": true
 }

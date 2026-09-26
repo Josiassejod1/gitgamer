@@ -13,7 +13,9 @@ const routes = { '/api/card': card, '/api/stats': stats, '/api/cover': cover };
 const server = http.createServer(async (req, res) => {
   const { pathname } = new URL(req.url, 'http://localhost');
   if (routes[pathname]) return routes[pathname](req, res);
-  const file = path.join(PUBLIC, pathname === '/' ? 'index.html' : pathname);
+  // Mirrors Vercel's cleanUrls: /card serves card.html.
+  const rel = pathname === '/' ? 'index.html' : path.extname(pathname) ? pathname : `${pathname}.html`;
+  const file = path.join(PUBLIC, rel);
   if (!file.startsWith(PUBLIC)) return res.writeHead(403).end();
   try {
     const body = await readFile(file);

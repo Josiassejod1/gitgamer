@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gitgamer card</title>
+<meta name="description" content="See what they're playing, then make your own gitgamer card for your GitHub profile, blog or site.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="hero hero-small">
+  <div class="wrap">
+    <p class="eyebrow"><a href="/" class="brand">gitgamer</a></p>
+    <h1 id="heading">Now playing</h1>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="panel">
+    <div class="preview"><img id="card" alt="gitgamer card"></div>
+    <p id="error" class="hint" hidden></p>
+    <h2 class="games-h" id="gamesHeading" hidden>Games on this card</h2>
+    <ul id="games" class="list"></ul>
+  </section>
+
+  <section class="panel cta-panel">
+    <h2>Make your own card</h2>
+    <p>Show what you're playing on your GitHub profile, blog or site. It's free, open source and takes a minute.</p>
+    <p class="cta">
+      <a class="btn" href="/">🎮 Make my card</a>
+      <a id="share" class="btn ghost" href="https://x.com/intent/tweet" target="_blank" rel="noopener">Share this card on X</a>
+    </p>
+  </section>
+</main>
+
+<footer class="wrap foot">
+  <p>Game info and cover art from <a href="https://en.wikipedia.org">Wikipedia</a>. Text is CC BY-SA, and cover art is used under fair use and belongs to its publishers.</p>
+  <p><a href="/">gitgamer</a> is built by <a href="https://www.dalvindigital.com">Dalvin Digital Design</a> · <a href="https://github.com/Josiassejod1/gitgamer">GitHub</a></p>
+</footer>
+
+<script src="/card.js" type="module"></script>
+</body>
+</html>

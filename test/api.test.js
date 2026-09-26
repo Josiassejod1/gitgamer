@@ -35,6 +35,7 @@ test('renders a card from a games.json in the profile repo', async () => {
   assert.match(res.body, /Astro Bot/);
   assert.match(res.body, /data:image\/png;base64,/, 'cover art is inlined');
   assert.match(res.body, /Wikipedia/, 'credits Wikipedia');
+  assert.match(res.body, /www\.gitgamer\.com/, 'carries the site address');
   assert.ok(!/https?:\/\/upload/.test(res.body), 'no external image URLs in the SVG');
 });
 

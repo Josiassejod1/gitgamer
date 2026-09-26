@@ -74,13 +74,15 @@ function ghUrl(user) {
 
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const altText = () => (state.now_playing ? `Now playing: ${state.now_playing.title}` : 'My gitgamer card');
-const linkTarget = (user) => (user ? `https://github.com/${user}` : ORIGIN);
+// Clicking an embedded card opens its hosted page, e.g. /card?user=someone.
+const pageUrlFor = (cardUrl) => cardUrl.replace('/api/card?', '/card?');
 
-function snippets(url, user) {
+function snippets(url) {
   const alt = altText();
+  const page = pageUrlFor(url);
   return {
-    md: `[![${alt.replace(/[[\]]/g, '')}](${url})](${linkTarget(user)})`,
-    html: `<a href="${escapeHtml(linkTarget(user))}"><img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}" width="100%" style="max-width:840px"></a>`,
+    md: `[![${alt.replace(/[[\]]/g, '')}](${url})](${page})`,
+    html: `<a href="${escapeHtml(page)}"><img src="${escapeHtml(url)}" alt="${escapeHtml(alt)}" width="100%" style="max-width:840px"></a>`,
   };
 }
 
@@ -201,12 +203,12 @@ function renderOutputs() {
   document.querySelectorAll('.needs-games').forEach((el) => { el.hidden = empty; });
   document.querySelectorAll('.needs-games-hint').forEach((el) => { el.hidden = !empty; });
 
-  const quick = snippets(quickUrl(), '');
+  const quick = snippets(quickUrl());
   $('mdQuick').value = quick.md;
   $('htmlQuick').value = quick.html;
 
   const user = $('ghUser').value.trim();
-  const gh = snippets(ghUrl(user), user);
+  const gh = snippets(ghUrl(user));
   $('mdGh').value = gh.md;
   $('htmlGh').value = gh.html;
 

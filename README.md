@@ -1,6 +1,6 @@
 # 🎮 gitgamer
 
-[![CI](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md) [![Used by](https://img.shields.io/endpoint?url=https://gitgamer-tau.vercel.app/api/stats%3Fformat%3Dshields)](https://gitgamer-tau.vercel.app)
+[![CI](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md) [![Used by](https://img.shields.io/endpoint?url=https://www.gitgamer.com/api/stats%3Fformat%3Dshields)](https://www.gitgamer.com)
 
 Show what you're playing on your GitHub profile, blog or any website.
 
@@ -11,15 +11,17 @@ Show what you're playing on your GitHub profile, blog or any website.
 
 **[⭐ Star it](https://github.com/Josiassejod1/gitgamer) · [🍴 Fork it](https://github.com/Josiassejod1/gitgamer/fork)**. Built by [Dalvin Digital](https://www.dalvindigital.com).
 
-### 👉 [Make your card at gitgamer-tau.vercel.app](https://gitgamer-tau.vercel.app)
+### 👉 [Make your card at gitgamer.com](https://www.gitgamer.com)
 
 Search games, preview your card and copy the embed code. No sign-up.
 
-[![Now playing: Marvel's Wolverine](https://gitgamer-tau.vercel.app/api/card?user=Josiassejod1)](https://github.com/Josiassejod1)
+[![Now playing: Marvel's Wolverine](https://www.gitgamer.com/api/card?user=Josiassejod1)](https://www.gitgamer.com/card?user=Josiassejod1)
 
 <sub>That's a live card, straight from [@Josiassejod1's profile](https://github.com/Josiassejod1).</sub>
 
 ## Embed it
+
+Clicking an embedded card opens its page on gitgamer.com (`/card?user=…`), with the games linked to Wikipedia and a “make your own” button. The builder's embed code sets this up for you.
 
 | Where your list lives | Embed URL | Updates when… |
 | --- | --- | --- |
@@ -30,11 +32,11 @@ Search games, preview your card and copy the embed code. No sign-up.
 | One game, no setup | `/api/card?playing=Hades%20II&platform=PC&name=Sam` | you change the URL |
 
 ```md
-[![Now playing](https://gitgamer-tau.vercel.app/api/card?user=Josiassejod1)](https://github.com/Josiassejod1)
+[![Now playing](https://www.gitgamer.com/api/card?user=Josiassejod1)](https://www.gitgamer.com/card?user=Josiassejod1)
 ```
 
 ```html
-<a href="https://github.com/Josiassejod1"><img src="https://gitgamer-tau.vercel.app/api/card?user=Josiassejod1" alt="Now playing" width="100%" style="max-width:840px"></a>
+<a href="https://www.gitgamer.com/card?user=Josiassejod1"><img src="https://www.gitgamer.com/api/card?user=Josiassejod1" alt="Now playing" width="100%" style="max-width:840px"></a>
 ```
 
 ### Options
