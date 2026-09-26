@@ -1,0 +1,13 @@
+{
+  "name": "gitgamer",
+  "short_name": "gitgamer",
+  "description": "Show what you're playing on your GitHub profile, blog or site.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0d14",
+  "theme_color": "#0b0d14",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

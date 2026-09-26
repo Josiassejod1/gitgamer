@@ -7,7 +7,7 @@ import stats from './api/stats.js';
 import cover from './api/cover.js';
 
 const PUBLIC = path.join(path.dirname(new URL(import.meta.url).pathname), 'public');
-const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
+const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png', '.ico': 'image/x-icon', '.xml': 'application/xml', '.txt': 'text/plain', '.webmanifest': 'application/manifest+json' };
 const routes = { '/api/card': card, '/api/stats': stats, '/api/cover': cover };
 
 const server = http.createServer(async (req, res) => {

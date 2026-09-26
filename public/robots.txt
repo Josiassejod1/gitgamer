@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Allow: /api/card
+Allow: /api/cover
+
+Sitemap: https://www.gitgamer.com/sitemap.xml
