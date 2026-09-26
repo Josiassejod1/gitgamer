@@ -175,7 +175,24 @@ function renderOutputs() {
   $('htmlGh').value = gh.html;
 
   renderPicks();
+  renderShare();
 }
+
+// ---------- share on X ----------
+const SITE = 'https://github.com/Josiassejod1/gitgamer';
+// Local dev URLs aren't shareable, so point at the repo instead.
+const SHARE_URL = ORIGIN.startsWith('http://localhost') ? SITE : ORIGIN;
+const tweetUrl = (text, url) => `https://x.com/intent/tweet?${new URLSearchParams({ text, url })}`;
+
+function renderShare() {
+  const now = state.now_playing;
+  const platform = now?.platform ? ` on ${now.platform}` : '';
+  const text = now
+    ? `🎮 Now playing: ${now.title}${platform}.\n\nWhat should I play next? Made my gamer card with gitgamer:`
+    : '🎮 Made a gamer card for my GitHub profile with gitgamer. Show what you play and let visitors pick your next game:';
+  $('shareCard').href = tweetUrl(text, SHARE_URL);
+}
+$('shareTool').href = tweetUrl('🎮 gitgamer: show what you are playing on your GitHub profile, and let visitors vote on what you play next. Free and open source.', SHARE_URL);
 
 function changed() {
   save();
