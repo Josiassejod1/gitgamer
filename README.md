@@ -10,6 +10,8 @@ Show what you're playing on your GitHub profile, blog or any website, and let vi
 - **Exportable:** Markdown, HTML, SVG or PNG. Four themes, full or compact layout, custom accent color
 - **No sign-up, no database:** your list lives in the embed link or in a `games.json` you own
 
+**[⭐ Star it](https://github.com/Josiassejod1/gitgamer) · [🍴 Fork it](https://github.com/Josiassejod1/gitgamer/fork)**. Built by [Dalvin Digital](https://www.dalvindigital.com).
+
 Use the builder at the site root to search games, preview your card and copy the embed code.
 
 ## Embed it
@@ -96,4 +98,4 @@ It's open source, and contributions are welcome: new themes, platforms, better W
 ## Credits
 
 - Game descriptions and cover art come from [Wikipedia](https://en.wikipedia.org), via its public API. Text is licensed [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Box art is non-free and is shown at thumbnail size under fair use; it belongs to its publishers. Cards credit Wikipedia and link each article.
-- Created by [Dalvin Josias Sejour](https://github.com/Josiassejod1). MIT licensed; keep the credit if you fork it.
+- Created by [Dalvin Josias Sejour](https://github.com/Josiassejod1) of [Dalvin Digital](https://www.dalvindigital.com). MIT licensed; keep the credit if you fork it.
