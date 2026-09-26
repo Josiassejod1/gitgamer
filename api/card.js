@@ -5,10 +5,19 @@ import { loadData, SourceError } from '../lib/sources.js';
 import { buildCard } from '../lib/card.js';
 import { renderCard, renderError } from '../lib/render.js';
 import { send, queryOf } from '../lib/util.js';
+import { recordUse } from '../lib/stats.js';
 
 function clampRecent(value) {
   const n = parseInt(value, 10);
   return Number.isNaN(n) ? 5 : Math.max(0, Math.min(5, n));
+}
+
+// Counts real users, only after their games.json actually loaded. Mirrors loadData's source order.
+function trackSource(q) {
+  if (q.get('data')) return null;
+  if (q.get('gist')) return recordUse('gists', q.get('gist'));
+  if (q.get('user')) return recordUse('users', q.get('user'));
+  return null;
 }
 
 export default async function handler(req, res) {
@@ -23,7 +32,10 @@ export default async function handler(req, res) {
 
   try {
     const data = await loadData(q);
-    const card = await buildCard(data, { recent: opts.layout === 'compact' ? 0 : opts.recent, images: !asJson });
+    const [card] = await Promise.all([
+      buildCard(data, { recent: opts.layout === 'compact' ? 0 : opts.recent, images: !asJson }),
+      trackSource(q),
+    ]);
     if (asJson) {
       const strip = (g) => g && { title: g.title, platform: g.platform, status: g.status, started: g.started, ended: g.ended, link: g.link, wikipedia: g.wikipedia };
       return send(res, 200, JSON.stringify({ name: card.name, now_playing: strip(card.now), recently_played: card.recent.map(strip), credit: 'Game info and cover art from Wikipedia' }, null, 2), 'application/json; charset=utf-8', 3600);

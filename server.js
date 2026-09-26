@@ -4,10 +4,11 @@ import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import card from './api/card.js';
 import picks from './api/picks.js';
+import stats from './api/stats.js';
 
 const PUBLIC = path.join(path.dirname(new URL(import.meta.url).pathname), 'public');
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.svg': 'image/svg+xml', '.json': 'application/json', '.png': 'image/png' };
-const routes = { '/api/card': card, '/api/picks': picks };
+const routes = { '/api/card': card, '/api/picks': picks, '/api/stats': stats };
 
 const server = http.createServer(async (req, res) => {
   const { pathname } = new URL(req.url, 'http://localhost');

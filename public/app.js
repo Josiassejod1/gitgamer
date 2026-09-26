@@ -361,5 +361,15 @@ document.querySelectorAll('.tab').forEach((tab) => {
 });
 document.querySelectorAll('textarea[readonly]').forEach((t) => t.addEventListener('focus', () => t.select()));
 
+// Show "used by N gamers" when this deployment has stats set up.
+fetch('/api/stats')
+  .then((r) => (r.ok ? r.json() : null))
+  .then((s) => {
+    if (!s?.gamers) return;
+    $('usedBy').textContent = ` · USED BY ${s.gamers.toLocaleString('en-US')} ${s.gamers === 1 ? 'GAMER' : 'GAMERS'}`;
+    $('usedBy').hidden = false;
+  })
+  .catch(() => {});
+
 renderLists();
 renderOutputs();

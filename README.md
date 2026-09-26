@@ -82,6 +82,16 @@ Set a **`GITHUB_TOKEN`** environment variable (a fine-grained token with no extr
 
 Cards are cached at the edge for an hour (picks for 10 minutes). Wikipedia lookups and images are also cached in memory.
 
+### Usage stats (optional)
+
+Want to know how many people use your deployment? In Vercel, go to **Storage → Create → Upstash Redis** (free tier) and connect it to the project. gitgamer then counts unique GitHub users with a card, and repos with a picks board.
+
+- `/api/stats` returns `{"gamers": 250, "picks_boards": 40}`
+- `/api/stats?format=badge` returns an SVG "🎮 used by 250 gamers" badge
+- `/api/stats?format=shields` works with `https://img.shields.io/endpoint?url=...`
+
+Only public identifiers are stored (GitHub usernames, gist ids and repo names that are already in card URLs). Link-only (`?data=`) and `?playing=` cards aren't counted. Without Upstash, nothing is recorded and everything else works the same.
+
 ## Develop
 
 ```sh

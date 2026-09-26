@@ -32,10 +32,25 @@ export function tinyPng() {
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: { 'content-type': 'application/json' } });
 
 // Fake Wikipedia + GitHub. `files` maps raw.githubusercontent paths to JSON bodies, `issues` maps repo -> issues.
-export function mockFetch({ files = {}, issues = {}, calls = [] } = {}) {
-  return async (input) => {
+// `redis` is an in-memory stand-in for Upstash's REST pipeline API (SADD / SCARD only).
+export function mockFetch({ files = {}, issues = {}, calls = [], redis = null } = {}) {
+  return async (input, opts = {}) => {
     const url = new URL(String(input));
     calls.push(url.href);
+    if (url.hostname === 'redis.test') {
+      if (!redis || redis.down) return new Response('down', { status: 500 });
+      const results = JSON.parse(opts.body).map(([cmd, key, member]) => {
+        redis.sets[key] ||= new Set();
+        if (cmd === 'SADD') {
+          const had = redis.sets[key].has(member);
+          redis.sets[key].add(member);
+          return { result: had ? 0 : 1 };
+        }
+        if (cmd === 'SCARD') return { result: redis.sets[key].size };
+        return { error: `unsupported ${cmd}` };
+      });
+      return json(results);
+    }
     if (url.hostname === 'en.wikipedia.org') {
       const p = url.searchParams;
       const name = p.get('titles') || p.get('gsrsearch').replace(/ video game$/, '');
