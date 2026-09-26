@@ -17,7 +17,7 @@ You need Node 20+ and nothing else. There's no install step.
 
 | Path | What it does |
 | --- | --- |
-| `api/card.js`, `api/stats.js` | HTTP handlers (Vercel functions, also used by `server.js`) |
+| `api/card.js`, `api/cover.js`, `api/stats.js` | HTTP handlers (Vercel functions, also used by `server.js`) |
 | `lib/sources.js` | Loads a game list from `?user=`, `?gist=`, `?data=` or `?playing=` |
 | `lib/wiki.js` | Wikipedia lookup and cover art (with an allow-list of image hosts) |
 | `lib/render.js` | SVG cards and themes |

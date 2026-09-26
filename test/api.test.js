@@ -111,3 +111,16 @@ test('Wikipedia results are cached between requests', async () => {
   await call(card, '/api/card?user=dalvin');
   assert.equal(calls.filter((u) => u.includes('wikipedia')).length, first);
 });
+
+test('cover endpoint serves the same Wikipedia art the card uses', async () => {
+  const { default: cover } = await import('../api/cover.js');
+  const res = await call(cover, "/api/cover?title=Marvel's%20Wolverine&wiki=Marvel's%20Wolverine");
+  assert.equal(res.statusCode, 200);
+  assert.equal(res.headers['content-type'], 'image/png');
+  assert.match(res.headers['cache-control'], /s-maxage=604800/);
+  assert.ok(calls.some((u) => u.includes('titles=Marvel')), 'looks up the exact article when wiki is given');
+
+  const missing = await call(cover, '/api/cover?title=Nothing%20Matches');
+  assert.equal(missing.statusCode, 404);
+  assert.equal((await call(cover, '/api/cover')).statusCode, 400);
+});

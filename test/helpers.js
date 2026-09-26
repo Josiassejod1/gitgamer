@@ -87,7 +87,7 @@ export async function call(handler, path) {
     headers: {},
     body: '',
     setHeader(k, v) { this.headers[k.toLowerCase()] = v; },
-    end(b) { this.body = String(b ?? ''); },
+    end(b) { this.body = Buffer.isBuffer(b) ? b : String(b ?? ''); },
   };
   await handler({ url: path, headers: {} }, res);
   return res;

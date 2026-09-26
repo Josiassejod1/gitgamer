@@ -88,7 +88,10 @@ function snippets(url, user) {
 function gameRow(game, { actions = [], editable = false, recent = false } = {}) {
   const li = $('gameTpl').content.firstElementChild.cloneNode(true);
   const img = li.querySelector('.thumb');
-  if (game.thumb) img.src = game.thumb; else img.hidden = true;
+  // Games from search carry a thumbnail; anything else (loaded from games.json, older drafts)
+  // gets the same cover the card server uses. If there's none, show the placeholder.
+  img.src = game.thumb || `/api/cover?${new URLSearchParams({ title: game.title, ...(game.wiki ? { wiki: game.wiki } : {}) })}`;
+  img.onerror = () => { img.hidden = true; };
   li.querySelector('.title').textContent = game.title;
   li.querySelector('.desc').textContent = game.description || '';
   const controls = li.querySelector('.controls');
@@ -273,49 +276,6 @@ function clearSearch() {
   $('searchStatus').textContent = '';
 }
 
-// ---------- cover thumbnails for games loaded without one (games.json only stores titles) ----------
-const WIKI_API = 'https://en.wikipedia.org/w/api.php';
-const wikiParams = (extra) => new URLSearchParams({
-  origin: '*', action: 'query', format: 'json', formatversion: '2', redirects: '1',
-  prop: 'pageimages|description', piprop: 'thumbnail', pithumbsize: '120', pilicense: 'any', ...extra,
-});
-
-async function fillThumbnails() {
-  const missing = [state.now_playing, ...state.recently_played].filter((g) => g && !g.thumb);
-  if (!missing.length) return;
-  try {
-    // One request for everything with a known article title (up to 50 at a time).
-    const byTitle = missing.filter((g) => g.wiki);
-    if (byTitle.length) {
-      const res = await fetch(`${WIKI_API}?${wikiParams({ titles: byTitle.map((g) => g.wiki).slice(0, 50).join('|') })}`);
-      const q = (await res.json()).query || {};
-      const alias = {};
-      for (const { from, to } of [...(q.normalized || []), ...(q.redirects || [])]) alias[from] = to;
-      const pages = Object.fromEntries((q.pages || []).map((p) => [p.title, p]));
-      for (const g of byTitle) {
-        let t = g.wiki;
-        while (alias[t]) t = alias[t];
-        const page = pages[t];
-        if (page?.thumbnail) g.thumb = page.thumbnail.source;
-        if (page?.description && !g.description) g.description = page.description;
-      }
-    }
-    // Anything else: search like the card service does.
-    for (const g of missing.filter((m) => !m.thumb).slice(0, 12)) {
-      const res = await fetch(`${WIKI_API}?${wikiParams({ generator: 'search', gsrsearch: `${g.title} video game`, gsrlimit: '3' })}`);
-      const pages = ((await res.json()).query?.pages || []).sort((a, b) => a.index - b.index);
-      const page = pages.find((p) => /video game/i.test(p.description || '')) || pages[0];
-      if (page?.thumbnail) g.thumb = page.thumbnail.source;
-      if (page?.description && !g.description) g.description = page.description;
-      if (page && !g.wiki) g.wiki = page.title;
-    }
-  } catch {
-    return; // Offline or Wikipedia unavailable: placeholders are fine.
-  }
-  save();
-  renderLists();
-}
-
 // ---------- import ----------
 $('importBtn').onclick = async () => {
   const user = $('importUser').value.trim();
@@ -333,7 +293,6 @@ $('importBtn').onclick = async () => {
     $('ghUser').value = user;
     $('searchStatus').textContent = 'Loaded!';
     changed();
-    fillThumbnails();
   } catch (e) {
     $('searchStatus').textContent = e.message || 'Could not load that file.';
   }
@@ -407,4 +366,3 @@ fetch('/api/stats')
 
 renderLists();
 renderOutputs();
-fillThumbnails();
