@@ -23,4 +23,4 @@ const server = http.createServer(async (req, res) => {
 });
 
 const port = Number(process.env.PORT) || 3000;
-server.listen(port, () => console.log(`gamer-card running at http://localhost:${port}`));
+server.listen(port, () => console.log(`gitgamer running at http://localhost:${port}`));

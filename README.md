@@ -1,6 +1,6 @@
-# 🎮 Gamer Card
+# 🎮 gitgamer
 
-[![CI](https://github.com/Josiassejod1/gamer-card/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gamer-card/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md)
+[![CI](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gitgamer/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md)
 
 Show what you're playing on your GitHub profile, blog or any website, and let visitors vote on what you play next.
 

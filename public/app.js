@@ -2,7 +2,7 @@ const $ = (id) => document.getElementById(id);
 const ORIGIN = location.origin;
 const PLATFORMS = ['', 'PC', 'PS5', 'PS4', 'Xbox Series X|S', 'Xbox One', 'Switch 2', 'Switch', 'Steam Deck', 'Mobile', 'Retro', 'Other'];
 const STATUSES = ['Finished', 'Played', 'Dropped', 'On hold', '100%'];
-const STORE_KEY = 'gamer-card-draft';
+const STORE_KEY = 'gitgamer-draft';
 const today = () => new Date().toISOString().slice(0, 10);
 
 let state = load() || { name: '', now_playing: null, recently_played: [] };
@@ -61,7 +61,7 @@ function ghUrl(user) {
 }
 
 const escapeHtml = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const altText = () => (state.now_playing ? `Now playing: ${state.now_playing.title}` : 'My gamer card');
+const altText = () => (state.now_playing ? `Now playing: ${state.now_playing.title}` : 'My gitgamer card');
 const linkTarget = (user) => (user ? `https://github.com/${user}` : ORIGIN);
 
 function snippets(url, user) {
@@ -259,7 +259,7 @@ $('dlJson').onclick = () => download(new Blob([JSON.stringify(exportData(), null
 $('dlSvg').onclick = async () => {
   $('dlStatus').textContent = 'Rendering…';
   const svg = await (await fetch(quickUrl())).text();
-  download(new Blob([svg], { type: 'image/svg+xml' }), 'gamer-card.svg');
+  download(new Blob([svg], { type: 'image/svg+xml' }), 'gitgamer.svg');
   $('dlStatus').textContent = '';
 };
 $('dlPng').onclick = async () => {
@@ -273,7 +273,7 @@ $('dlPng').onclick = async () => {
     const canvas = Object.assign(document.createElement('canvas'), { width: img.naturalWidth * scale, height: img.naturalHeight * scale });
     canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
     URL.revokeObjectURL(url);
-    canvas.toBlob((blob) => { download(blob, 'gamer-card.png'); $('dlStatus').textContent = ''; }, 'image/png');
+    canvas.toBlob((blob) => { download(blob, 'gitgamer.png'); $('dlStatus').textContent = ''; }, 'image/png');
   } catch {
     $('dlStatus').textContent = 'PNG export failed in this browser. Download the SVG instead.';
   }

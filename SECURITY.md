@@ -1,6 +1,6 @@
 # Security Policy
 
-Please **don't open a public issue** for security problems. Report them privately with GitHub's [private vulnerability reporting](https://github.com/Josiassejod1/gamer-card/security/advisories/new) instead.
+Please **don't open a public issue** for security problems. Report them privately with GitHub's [private vulnerability reporting](https://github.com/Josiassejod1/gitgamer/security/advisories/new) instead.
 
 Things we care about most:
 - User text that escapes the SVG escaping (XSS in cards)

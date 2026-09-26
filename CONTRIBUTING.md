@@ -1,12 +1,12 @@
-# Contributing to Gamer Card
+# Contributing to gitgamer
 
-Thanks for helping! Gamer Card is small on purpose, so the bar for a good contribution is simple: it works, it's tested, and it doesn't add runtime dependencies.
+Thanks for helping! gitgamer is small on purpose, so the bar for a good contribution is simple: it works, it's tested, and it doesn't add runtime dependencies.
 
 ## Getting started
 
 ```sh
-git clone https://github.com/Josiassejod1/gamer-card.git
-cd gamer-card
+git clone https://github.com/Josiassejod1/gitgamer.git
+cd gitgamer
 npm start   # http://localhost:3000
 npm test
 ```
