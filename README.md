@@ -108,4 +108,13 @@ It's open source, and contributions are welcome: new themes, platforms, better W
 ## Credits
 
 - Game descriptions and cover art come from [Wikipedia](https://en.wikipedia.org), via its public API. Text is licensed [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Box art is non-free and is shown at thumbnail size under fair use; it belongs to its publishers. Cards credit Wikipedia and link each article.
-- Created by [Dalvin Josias Sejour](https://github.com/Josiassejod1) of [Dalvin Digital](https://www.dalvindigital.com). MIT licensed; keep the credit if you fork it.
+- Created by [Dalvin Josias Sejour](https://github.com/Josiassejod1) at [Dalvin Digital Design](https://www.dalvindigital.com). MIT licensed; keep the credit if you fork it.
+
+<a href="https://www.dalvindigital.com">
+  <picture>
+    <source srcset="public/dalvin-digital-logo-dark.png" media="(prefers-color-scheme: dark)">
+    <img src="public/dalvin-digital-logo-light.png" alt="Dalvin Digital Design" width="200">
+  </picture>
+</a>
+
+Built by **[Dalvin Digital Design](https://www.dalvindigital.com)**. Want something like this for your brand? Email [dalvin@dalvindigital.com](mailto:dalvin@dalvindigital.com).

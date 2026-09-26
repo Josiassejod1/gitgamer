@@ -95,6 +95,10 @@ button:disabled { opacity: .5; cursor: default; }
 details { margin-top: 12px; }
 summary { cursor: pointer; font-weight: 600; }
 
+.credit { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 20px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border); }
+.credit p { margin: 0; line-height: 1.7; }
+.credit-logo { display: block; flex: none; }
+.credit-logo img { display: block; width: 160px; height: auto; }
 .foot { color: var(--muted); font-size: 13px; padding-bottom: 40px; }
 
 @media (max-width: 560px) {
