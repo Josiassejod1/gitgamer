@@ -137,3 +137,20 @@ test('cover endpoint serves the same Wikipedia art the card uses', async () => {
   assert.equal(missing.statusCode, 404);
   assert.equal((await call(cover, '/api/cover')).statusCode, 400);
 });
+
+test('between games, the most recent game is featured as LAST PLAYED', async () => {
+  const data = { username: 'Eperez28', recently_played: [
+    { title: 'The Elder Scrolls V: Skyrim', platform: 'Xbox One', status: 'Played' },
+    { title: 'Astro Bot', platform: 'PS5', status: 'Finished' },
+  ] };
+  const res = await call(card, `/api/card?data=${encodeData(data)}`);
+  assert.match(res.body, /LAST PLAYED/);
+  assert.ok(!res.body.includes('NOW PLAYING'));
+  assert.ok(!res.body.includes('Nothing in the console'));
+  assert.match(res.body, /aria-label="@Eperez28 last played: The Elder Scrolls V: Skyrim"/);
+  assert.equal((res.body.match(/Skyrim/g) || []).length, 3, 'featured once (title, aria-label, <title>), not repeated under recently played');
+  assert.match(res.body, /RECENTLY PLAYED[\s\S]*Astro Bot/);
+
+  const empty = await call(card, `/api/card?data=${encodeData({ username: 'x' })}`);
+  assert.match(empty.body, /Taking a break/);
+});
