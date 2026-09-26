@@ -215,8 +215,67 @@ function renderOutputs() {
   $('mdGh').value = gh.md;
   $('htmlGh').value = gh.html;
 
+  renderAi();
   renderShare();
 }
+
+// ---------- AI setup prompt ----------
+// A prompt people paste into any AI assistant to set up a profile README with their card.
+// Agents with GitHub access can do it directly; chat assistants walk the person through it.
+const PUBLIC_ORIGIN = ORIGIN.startsWith('http://localhost') ? 'https://www.gitgamer.com' : ORIGIN;
+
+function aiPrompt() {
+  const user = validUsername(state.username) ? state.username : '';
+  const who = user || '<YOUR-USERNAME>';
+  const data = { ...exportData(), ...(user ? { username: user } : {}) };
+  const alt = state.now_playing ? `Now playing: ${state.now_playing.title}` : 'My gitgamer card';
+  return `Help me add a gitgamer "now playing" card to my GitHub profile.
+${user ? `My GitHub username is ${user}.` : 'First, ask me for my GitHub username and use it wherever you see <YOUR-USERNAME>.'}
+
+Background:
+- GitHub shows a profile README on github.com/${who} when a PUBLIC repository named exactly "${who}" (same as the username) has a README.md.
+- gitgamer (${PUBLIC_ORIGIN}) draws the card from a file called games.json in that repository.
+
+Steps:
+1. Check whether the repository ${who}/${who} exists. If it doesn't, create it: public, named exactly "${who}", with a README.md.
+2. Add a file named games.json at the root of that repository with exactly this content:
+
+${JSON.stringify(data, null, 2)}
+
+3. Add this line to README.md near the top. Keep everything already in the README:
+
+[![${alt.replace(/[[\]]/g, '')}](${PUBLIC_ORIGIN}/api/card?user=${who})](${PUBLIC_ORIGIN}/card?user=${who})
+
+4. Commit both changes to the default branch (usually main).
+5. Check ${PUBLIC_ORIGIN}/card?user=${who} shows my games. Changes can take about 10 minutes to appear on GitHub.
+
+How to do it:
+- If you can use GitHub directly (for example the gh CLI or a GitHub integration), do the steps yourself and tell me what you changed.
+- If you can't, walk me through it on github.com one step at a time, and wait for me to confirm each step before the next.
+
+Rules:
+- Don't delete or rewrite anything already in my README.
+- Only change README.md and games.json.
+- games.json must stay valid JSON.
+
+Later, to change what I'm playing, edit games.json: "now_playing" is the current game, and "recently_played" is a list of past games (each with "title", optional "platform" and "status"). More: ${PUBLIC_ORIGIN}/ai-setup.md`;
+}
+
+function renderAi() {
+  $('aiPrompt').value = aiPrompt();
+  $('aiHint').hidden = validUsername(state.username);
+}
+
+$('copyAi').onclick = async () => {
+  try {
+    await navigator.clipboard.writeText($('aiPrompt').value);
+    $('copyAiStatus').textContent = 'Copied! Paste it into your AI assistant.';
+  } catch {
+    $('aiPrompt').select();
+    $('copyAiStatus').textContent = 'Press Ctrl+C (or Cmd+C) to copy.';
+  }
+  setTimeout(() => { $('copyAiStatus').textContent = ''; }, 4000);
+};
 
 // ---------- share on X ----------
 const SITE = 'https://github.com/Josiassejod1/gitgamer';

@@ -1,0 +1,18 @@
+# gitgamer
+
+> gitgamer makes a live "now playing" gamer card for a GitHub profile README, blog or website. The card is an SVG image drawn from a games.json file in the user's GitHub profile repository. Game info and cover art come from Wikipedia. Free and open source.
+
+## Set up
+
+- [AI setup prompt](https://www.gitgamer.com/ai-setup.md): step-by-step instructions for an AI assistant to create a profile README, add games.json and embed the card
+- [Builder](https://www.gitgamer.com/): search games, preview the card and copy embed code
+
+## Card URLs
+
+- Card image: https://www.gitgamer.com/api/card?user=USERNAME (reads github.com/USERNAME/USERNAME/games.json)
+- Card page: https://www.gitgamer.com/card?user=USERNAME
+- Options: &theme=dark|light|neon|retro, &layout=compact, &recent=0-5, &accent=RRGGBB
+
+## Source
+
+- [GitHub repository](https://github.com/Josiassejod1/gitgamer)

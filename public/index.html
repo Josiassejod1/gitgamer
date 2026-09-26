@@ -113,6 +113,7 @@
       <button role="tab" class="tab active" data-tab="quick" aria-selected="true">Quick embed</button>
       <button role="tab" class="tab" data-tab="github" aria-selected="false">Auto-updating (GitHub)</button>
       <button role="tab" class="tab" data-tab="files" aria-selected="false">Download</button>
+      <button role="tab" class="tab" data-tab="ai" aria-selected="false">🤖 Set up with AI</button>
     </div>
 
     <div class="tabpanel" data-panel="quick">
@@ -129,6 +130,16 @@
       </ol>
       <label class="field">Markdown<textarea id="mdGh" readonly rows="3"></textarea></label>
       <label class="field">HTML<textarea id="htmlGh" readonly rows="3"></textarea></label>
+    </div>
+
+    <div class="tabpanel" data-panel="ai" hidden>
+      <p>No profile README yet? Paste this prompt into ChatGPT, Claude, Copilot or any AI assistant. It'll set up your GitHub profile with your games and card, or walk you through it step by step.</p>
+      <p id="aiHint" class="hint" hidden>Tip: enter your GitHub username in step 1 so the prompt is filled in for you.</p>
+      <div class="row">
+        <button id="copyAi" type="button">Copy AI setup prompt</button>
+        <span id="copyAiStatus" class="hint" aria-live="polite"></span>
+      </div>
+      <label class="field">Prompt<textarea id="aiPrompt" readonly rows="12"></textarea></label>
     </div>
 
     <div class="tabpanel" data-panel="files" hidden>

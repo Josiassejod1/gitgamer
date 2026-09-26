@@ -19,6 +19,12 @@ Search games, preview your card and copy the embed code. No sign-up.
 
 <sub>That's a live card, straight from [@Josiassejod1's profile](https://github.com/Josiassejod1).</sub>
 
+## 🤖 No profile README yet? Set it up with AI
+
+Build your list at [gitgamer.com](https://www.gitgamer.com), then open **Export → 🤖 Set up with AI** and copy the prompt. Paste it into ChatGPT, Claude, Copilot or any AI assistant. It creates your profile repo, adds your `games.json` and embeds your card, or walks you through it on github.com step by step.
+
+Prefer a blank template? Use [gitgamer.com/ai-setup.md](https://www.gitgamer.com/ai-setup.md). AI tools can also start from [gitgamer.com/llms.txt](https://www.gitgamer.com/llms.txt).
+
 ## Embed it
 
 Clicking an embedded card opens its page on gitgamer.com (`/card?user=…`), with the games linked to Wikipedia and a “make your own” button. The builder's embed code sets this up for you.
