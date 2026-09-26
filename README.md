@@ -1,5 +1,7 @@
 # 🎮 Gamer Card
 
+[![CI](https://github.com/Josiassejod1/gamer-card/actions/workflows/ci.yml/badge.svg)](https://github.com/Josiassejod1/gamer-card/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE) [![PRs welcome](https://img.shields.io/badge/PRs-welcome-pink.svg)](CONTRIBUTING.md)
+
 Show what you're playing on your GitHub profile, blog or any website, and let visitors vote on what you play next.
 
 - **Now playing + recently played** card, as an SVG that works anywhere an image does
@@ -86,6 +88,10 @@ npm test
 ```
 
 Requires Node 20+. `api/` holds the Vercel functions, `lib/` the logic, and `public/` the builder page.
+
+## Contributing
+
+It's open source, and contributions are welcome: new themes, platforms, better Wikipedia matching, or integrations like Steam and Backloggd sync. See [CONTRIBUTING.md](CONTRIBUTING.md) to get started and the [Code of Conduct](CODE_OF_CONDUCT.md). Report security issues privately ([SECURITY.md](SECURITY.md)).
 
 ## Credits
 

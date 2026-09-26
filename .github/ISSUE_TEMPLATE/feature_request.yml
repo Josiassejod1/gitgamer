@@ -1,0 +1,16 @@
+name: ✨ Feature request
+description: Suggest a theme, integration or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: What would you like?
+      description: What problem it solves for gamers, and how you picture it working
+    validations:
+      required: true
+  - type: dropdown
+    id: help
+    attributes:
+      label: Want to build it?
+      options: ["Yes, I'd like to open a PR", "Maybe, with some guidance", "No, just suggesting"]

@@ -1,0 +1,21 @@
+name: 🐛 Bug report
+description: Something on a card or in the builder isn't working
+labels: ["bug"]
+body:
+  - type: input
+    id: url
+    attributes:
+      label: Card URL
+      description: The /api/card or /api/picks link that shows the problem (remove anything private)
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you expected, what you saw instead, and a screenshot if possible
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Where is it embedded?
+      description: e.g. GitHub README, personal site, Notion
